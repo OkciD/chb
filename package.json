@@ -1,0 +1,22 @@
+{
+  "name": "@okcid/chb",
+  "version": "0.0.0",
+  "description": "A web page to make your images black and white",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OkciD/chb.git"
+  },
+  "author": "Yury Baykov <yury.baykov@mail.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OkciD/chb/issues"
+  },
+  "homepage": "https://github.com/OkciD/chb#readme",
+  "devDependencies": {
+    "eslint": "8.35.0"
+  }
+}
