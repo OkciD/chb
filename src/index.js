@@ -1,17 +1,15 @@
+import {getPreview} from './preview.js';
+
 const uploadButton = document.querySelector('#upload');
 
 uploadButton?.addEventListener('change', (event) => {
 	const [file] = event.target.files;
 
-	renderPreview(file);
+	getPreview(file)
+		.then((dataUrl) => renderBase64(dataUrl, 'preview'));
 });
 
-function renderPreview(file) {
-	const previewImg = document.querySelector('#preview');
-
-	const reader = new FileReader();
-	reader.onload = () => {
-		previewImg.src = reader.result;
-	};
-	reader.readAsDataURL(file);
+function renderBase64(dataUrl, imgId) {
+	const img = document.getElementById(imgId);
+	img.src = dataUrl;
 }
