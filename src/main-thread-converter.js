@@ -11,7 +11,12 @@ export function mainThreadConverter(file) {
 				ctx.drawImage(img,0,0);
 
 				const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-				console.log(imageData);
+				const bytesArrayCopy = new Uint8ClampedArray(imageData.data);
+				imageData.data.set(convert(bytesArrayCopy));
+
+				ctx.putImageData(imageData, 0, 0);
+
+				resolve(canvas.toDataURL());
 			};
 			img.src = reader.result;
 		};
@@ -19,14 +24,14 @@ export function mainThreadConverter(file) {
 	})
 }
 
-function convert(imgData) {
-	for (let i = 0; i < imgData.length; i += 3) {
-		const avg = (imgData[i] + imgData[i+1] + imgData[i+2]) / 3;
-		/*              r     +      g      +       b          / 3 */
-		imgData[i] = avg;
-		imgData[i+1] = avg;
-		imgData[i+2] = avg;
+function convert(bytesArray) {
+	for (let i = 0; i < bytesArray.length; i += 4) {
+		const avg = (bytesArray[i] + bytesArray[i+1] + bytesArray[i+2]) / 3;
+		/*                r        +        g        +       b          / 3 (bytesArray[i+3] - это альфа-канал) */
+		bytesArray[i] = avg;
+		bytesArray[i+1] = avg;
+		bytesArray[i+2] = avg;
 	}
 
-	return imgData;
+	return bytesArray;
 }
