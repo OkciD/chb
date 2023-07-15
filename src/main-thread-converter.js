@@ -2,12 +2,20 @@ export function mainThreadConverter(file) {
 	return new Promise((resolve) => {
 		const reader = new FileReader();
 		reader.onload = () => {
-			const originalBufferView = new Uint8Array(reader.result);
-			const blackAndWhiteBufferView = convert(originalBufferView);
-			const blob = new Blob( [blackAndWhiteBufferView], {type: 'image/jpeg'});
-			resolve(URL.createObjectURL(blob));
+			const img = new Image();
+			img.onload = () => {
+				const canvas = document.createElement('canvas');
+				canvas.width = img.width;
+				canvas.height = img.height;
+				const ctx = canvas.getContext('2d');
+				ctx.drawImage(img,0,0);
+
+				const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+				console.log(imageData);
+			};
+			img.src = reader.result;
 		};
-		reader.readAsArrayBuffer(file);
+		reader.readAsDataURL(file);
 	})
 }
 
